@@ -9,6 +9,8 @@ export const experienceApiRoutes = Object.freeze({
   mfa: `${prefix}/profile/mfa`,
 });
 
+export const verificationCodeRequestTimeoutMs = 60_000;
+
 export type VerificationResponse = {
   verificationId: string;
 };

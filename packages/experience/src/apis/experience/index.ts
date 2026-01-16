@@ -9,7 +9,11 @@ import { type ContinueFlowInteractionEvent } from '@/types';
 
 import api from '../api';
 
-import { experienceApiRoutes, type VerificationResponse } from './const';
+import {
+  experienceApiRoutes,
+  type VerificationResponse,
+  verificationCodeRequestTimeoutMs,
+} from './const';
 import {
   initInteraction,
   identifyUser,
@@ -107,6 +111,7 @@ export const sendVerificationCode = async (
         interactionEvent,
         identifier,
       },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<VerificationResponse>();
 
@@ -114,6 +119,7 @@ const verifyVerificationCode = async (json: VerificationCodePayload) =>
   api
     .post(`${experienceApiRoutes.verification}/verification-code/verify`, {
       json,
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<VerificationResponse>();
 

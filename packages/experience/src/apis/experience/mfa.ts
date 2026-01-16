@@ -9,7 +9,7 @@ import {
 
 import api from '../api';
 
-import { experienceApiRoutes } from './const';
+import { experienceApiRoutes, verificationCodeRequestTimeoutMs } from './const';
 import { submitInteraction } from './interaction';
 
 const addMfa = async (type: MfaFactor, verificationId: string) =>
@@ -144,6 +144,7 @@ export const sendMfaVerificationCode = async (
   api
     .post(`${experienceApiRoutes.verification}/mfa-verification-code`, {
       json: { identifierType },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<{ verificationId: string }>();
 
@@ -154,6 +155,7 @@ export const verifyMfaByVerificationCode = async (
 ) => {
   await api.post(`${experienceApiRoutes.verification}/mfa-verification-code/verify`, {
     json: { verificationId, code, identifierType },
+    timeout: verificationCodeRequestTimeoutMs,
   });
   return submitInteraction();
 };

@@ -2,6 +2,8 @@ import { SignInIdentifier, TemplateType } from '@logto/schemas';
 
 import { createAuthenticatedKy } from './base-ky';
 
+const verificationCodeRequestTimeoutMs = 60_000;
+
 export const verifyPassword = async (accessToken: string, password: string) => {
   return createAuthenticatedKy(accessToken)
     .post('/api/verifications/password', {
@@ -23,6 +25,7 @@ export const sendEmailVerificationCode = async (accessToken: string, email: stri
         },
         templateType: TemplateType.UserPermissionValidation,
       },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<{
       verificationRecordId: string;
@@ -40,6 +43,7 @@ export const sendPhoneVerificationCode = async (accessToken: string, phone: stri
         },
         templateType: TemplateType.UserPermissionValidation,
       },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<{
       verificationRecordId: string;
@@ -67,6 +71,7 @@ export const verifyEmailVerificationCode = async (
         verificationId: verificationRecordId,
         code,
       },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<{
       verificationRecordId: string;
@@ -93,6 +98,7 @@ export const verifyPhoneVerificationCode = async (
         verificationId: verificationRecordId,
         code,
       },
+      timeout: verificationCodeRequestTimeoutMs,
     })
     .json<{
       verificationRecordId: string;

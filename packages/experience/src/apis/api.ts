@@ -4,6 +4,7 @@ import ky from 'ky';
 import { searchKeys } from '@/shared/utils/search-parameters';
 
 export default ky.extend({
+  timeout: 60_000,
   hooks: {
     beforeRequest: [
       (request) => {
